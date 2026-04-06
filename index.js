@@ -13,6 +13,22 @@ let wordStatus = "";
 const attemptsMax = 6;
 let attempts = attemptsMax;
 
+// Fallback words used if the API is unavailable
+const fallbackWords = [
+    "APPLE", "BRAVE", "CRANE", "DRIVE", "EAGLE", "FLUTE", "GRAPE", "HOUSE",
+    "IRONY", "JOKER", "KNEEL", "LEMON", "MANGO", "NIGHT", "OCEAN", "PIANO",
+    "QUEEN", "RIVER", "STONE", "TIGER", "WATER", "BLAZE", "CLOWN", "EARTH",
+    "FROST", "GLOBE", "HATCH", "LLAMA", "MONTH", "NERVE", "ORBIT", "PLACE",
+    "QUIET", "REALM", "SHELF", "TRACK", "VENOM", "WHALE", "YEARN", "ALARM",
+    "BLEND", "CHESS", "DELTA", "EMBER", "FABLE", "GHOST", "HUMID", "KARMA",
+    "LEGAL", "MODEL", "NOBLE", "OLIVE", "PLUMB", "RAVEN", "SWAMP", "TROUT",
+    "ULTRA", "VIVID", "WALTZ", "XEROX", "YIELD", "ZESTY", "ABRUPT", "BLIGHT",
+    "CACTUS", "FELINE", "GOBLIN", "HUNTER", "INSECT", "JIGSAW", "KNIGHT",
+    "LIQUID", "MORTAL", "NICKEL", "OYSTER", "PURPLE", "ROBBER", "SLEEPY",
+    "TALENT", "UNIQUE", "VENDOR", "WALRUS", "ZIPPER", "BLANKET", "CABINET",
+    "DOLPHIN", "EXCERPT", "FACTORY", "GRANITE", "HABITAT", "ICEBERG"
+];
+
 startGame.addEventListener('click', start);
 restartGame.addEventListener('click', start);
 //--------------------------------------------------------------
@@ -25,14 +41,28 @@ restartGame.addEventListener('click', start);
 
 // Creates the initial state of the game
 async function start() {
-    
-    // Performs a GET request to an external API that returns a random word, the function cannot continue until the request is resolved
-    const wordLength = Math.floor(Math.random() * (8 - 4 + 1) + 4)
-    const response = await fetch(`https://random-word-api.vercel.app/api?words=1&length=${wordLength}&type=capitalized`);
-    const data = await response.json();
 
-    // Sets the chosen word variable to be equal to the random word from the GET request
-    chosenWord = data[0];
+    // Disable buttons while loading to prevent double-taps
+    startGame.disabled = true;
+    restartGame.disabled = true;
+
+    // Try to fetch a random word from the API, fall back to local list on failure
+    let word;
+    try {
+        const wordLength = Math.floor(Math.random() * (8 - 4 + 1) + 4);
+        const response = await fetch(`https://random-word-api.vercel.app/api?words=1&length=${wordLength}&type=capitalized`);
+        const data = await response.json();
+        word = data[0];
+    } catch (e) {
+        word = fallbackWords[Math.floor(Math.random() * fallbackWords.length)];
+    }
+
+    // Re-enable buttons
+    startGame.disabled = false;
+    restartGame.disabled = false;
+
+    // Sets the chosen word variable to be equal to the random word
+    chosenWord = word;
     console.log(chosenWord);
 
     // Sets the word status equal to as many underscores as there are characters in chosen word
@@ -43,7 +73,7 @@ async function start() {
         button.addEventListener('click', submitGuess, {once:true});
         button.classList.add("activeButton");
     })
-   
+
     // Initializes/resets all of the initial game display settings
     startGame.style.display = "none";
     restartGame.style.display = "block";
@@ -74,7 +104,7 @@ function submitGuess(event) {
         } else {
             tempWord += "_";
         }
-        
+
     }
 
     // Sets the word status equal to the temporary string and updates the word display
@@ -95,12 +125,12 @@ function submitGuess(event) {
         gameOver(true);
     } else if (attempts <= 0) {
         gameOver(false);
-    } 
+    }
 }
 
 // Handles UI when the game status is over
 function gameOver(win) {
-    
+
     // Selects all button elements, loops through them and removes the event listener
     document.querySelectorAll("button").forEach(function (button) {
         button.removeEventListener('click', submitGuess, {once:true})
