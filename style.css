@@ -60,7 +60,7 @@ img {
 
 /* */
 .keyboardButton {
-    width: clamp(28px, 8.5vw, 36px);
+    width: clamp(26px, 7.5vw, 36px);
     height: clamp(38px, 11vw, 48px);
     border: none;
     border-radius: 10px;
