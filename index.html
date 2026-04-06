@@ -7,12 +7,6 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
-    <!-- The elements for the win and lose notifications and the start and restart buttons -->
-    <h1 id="win">You Win!</h1>
-    <h1 id="lose">You Lost!</h1>
-    <button id="startGame" class="gameControls">Start Game</button>
-    <button id="restartGame" class="gameControls">Restart</button>
 
     <!-- The elements for the game area -->
     <div id="gameScreen">
@@ -20,7 +14,7 @@
             <img id="hangmanSprite" src="Sprites/HangmanSprite6.png">
             <p id="wordDisplay"></p>
         </div>
-        
+
         <!-- The elements for a keyboard UI for the user to submit guesses -->
         <div class="keyboard">
             <!-- Row 1 -->
@@ -64,6 +58,14 @@
                 <button class="keyboardButton">M</button>
                 <div class="spacer full"></div>
             </div>
+        </div>
+
+        <!-- Win/lose notifications and game control buttons -->
+        <div id="gameFooter">
+            <h1 id="win">You Win!</h1>
+            <h1 id="lose">You Lost!</h1>
+            <button id="startGame" class="gameControls">Start Game</button>
+            <button id="restartGame" class="gameControls">Restart</button>
         </div>
     </div>
 

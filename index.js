@@ -45,10 +45,10 @@ async function start() {
     })
    
     // Initializes/resets all of the initial game display settings
-    startGame.style.visibility = "hidden";
-    restartGame.style.visibility = "visible";
-    winScreen.style.visibility = "hidden";
-    loseScreen.style.visibility = "hidden";
+    startGame.style.display = "none";
+    restartGame.style.display = "block";
+    winScreen.style.display = "none";
+    loseScreen.style.display = "none";
     wordDisplay.textContent = wordStatus;
     wordDisplay.style.color = "hsl(0, 0.00%, 100.00%)";
     hangmanSprite.src = `Sprites/HangmanSprite6.png`;
@@ -109,12 +109,12 @@ function gameOver(win) {
 
     // Displays the win screen
     if (win) {
-        document.getElementById("win").style.visibility = "visible";
+        document.getElementById("win").style.display = "block";
         wordDisplay.style.color = "hsl(125, 100%, 80%)";
-        
+
     // Displays the lose screen
     } else {
-        document.getElementById("lose").style.visibility = "visible";
+        document.getElementById("lose").style.display = "block";
         wordDisplay.textContent = chosenWord;
         wordDisplay.style.color = "hsl(0, 100%, 80%)";
     }
