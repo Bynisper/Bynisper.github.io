@@ -52,7 +52,11 @@ async function start() {
         const wordLength = Math.floor(Math.random() * (8 - 4 + 1) + 4);
         const response = await fetch(`https://random-word-api.vercel.app/api?words=1&length=${wordLength}&type=capitalized`);
         const data = await response.json();
-        word = data[0];
+        if (data && typeof data[0] === 'string' && data[0].length > 0) {
+            word = data[0].toUpperCase();
+        } else {
+            throw new Error('Invalid API response');
+        }
     } catch (e) {
         word = fallbackWords[Math.floor(Math.random() * fallbackWords.length)];
     }
